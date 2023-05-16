@@ -1,5 +1,3 @@
-import payloadDashboardAnalytics from '@nouance/payload-dashboard-analytics'
-import { GoogleProvider } from '@nouance/payload-dashboard-analytics/dist/types/providers'
 import formBuilder from '@payloadcms/plugin-form-builder'
 import nestedDocs from '@payloadcms/plugin-nested-docs'
 import redirects from '@payloadcms/plugin-redirects'
@@ -23,14 +21,14 @@ import { MainMenu } from './globals/MainMenu'
 import { Icon } from './graphics/Icon'
 import { Logo } from './graphics/Logo'
 
-const GOOGLE_PROPERTY_ID = process.env.GOOGLE_PROPERTY_ID
-const GOOGLE_CREDENTIALS_FILE = process.env.GOOGLE_CREDENTIALS_FILE
+// const GOOGLE_PROPERTY_ID = process.env.GOOGLE_PROPERTY_ID
+// const GOOGLE_CREDENTIALS_FILE = process.env.GOOGLE_CREDENTIALS_FILE
 
-const googleProvider: GoogleProvider = {
-  source: 'google',
-  credentials: GOOGLE_CREDENTIALS_FILE,
-  propertyId: GOOGLE_PROPERTY_ID,
-}
+// const googleProvider: GoogleProvider = {
+//   source: 'google',
+//   credentials: GOOGLE_CREDENTIALS_FILE,
+//   propertyId: GOOGLE_PROPERTY_ID,
+// }
 
 export default buildConfig({
   collections: [CaseStudies, Media, Pages, Posts, Products, ReusableContent, Users],
@@ -82,87 +80,6 @@ export default buildConfig({
         openai_key: process.env.OPENAI_KEY,
       },
     }),
-    payloadDashboardAnalytics({
-      provider: googleProvider,
-      access: (user: any) => {
-        return Boolean(user)
-      },
-      navigation: {
-        afterNavLinks: [
-          {
-            type: 'live',
-          },
-        ],
-      },
-      dashboard: {
-        beforeDashboard: ['viewsChart', 'topPages'],
-        afterDashboard: [],
-      },
-      globals: [
-        {
-          slug: 'homepage',
-          widgets: [
-            {
-              type: 'info',
-              label: 'Page data',
-              metrics: ['views', 'sessions', 'sessionDuration'],
-              timeframe: 'currentMonth',
-              idMatcher: () => `/`,
-            },
-          ],
-        },
-      ],
-      collections: [
-        {
-          slug: Posts.slug,
-          widgets: [
-            {
-              type: 'chart',
-              label: 'Views and visitors',
-              metrics: ['views', 'visitors', 'sessions'],
-              timeframe: '30d',
-              idMatcher: (document: any) => `/blog/${document.slug}`,
-            },
-          ],
-        },
-        {
-          slug: Pages.slug,
-          widgets: [
-            {
-              type: 'chart',
-              label: 'Views and visitors',
-              metrics: ['views', 'visitors', 'sessions'],
-              timeframe: '30d',
-              idMatcher: (document: any) => `/${document.slug}`,
-            },
-          ],
-        },
-        {
-          slug: CaseStudies.slug,
-          widgets: [
-            {
-              type: 'chart',
-              label: 'Views and visitors',
-              metrics: ['views', 'visitors', 'sessions'],
-              timeframe: '30d',
-              idMatcher: (document: any) => `/industry/${document.slug}`,
-            },
-          ],
-        },
-        {
-          slug: Products.slug,
-          widgets: [
-            {
-              type: 'chart',
-              label: 'Views and visitors',
-              metrics: ['views', 'visitors', 'sessions'],
-              timeframe: '30d',
-              idMatcher: (document: any) => `/products/${document.slug}`,
-            },
-          ],
-        },
-      ],
-    }),
     search({
       collections: ['pages', 'posts', 'products', 'case-studies'],
       defaultPriorities: {
@@ -171,12 +88,7 @@ export default buildConfig({
       },
     }),
   ],
-  cors: [
-    process.env.PAYLOAD_PUBLIC_APP_URL,
-    'https://techinverted.com',
-    'https://cmw-dryice.com',
-    'https://www.cmw-dryice.com',
-  ].filter(Boolean),
+  cors: [process.env.PAYLOAD_PUBLIC_APP_URL, 'https://techinverted.com'].filter(Boolean),
   // csrf: [process.env.PAYLOAD_PUBLIC_SERVER_URL, process.env.PAYLOAD_PUBLIC_SITE_URL],
   admin: {
     meta: {

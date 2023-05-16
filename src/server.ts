@@ -1,6 +1,6 @@
 import checkDiskSpace from 'check-disk-space'
 import express from 'express'
-import nodemailer from 'nodemailer'
+// import nodemailer from 'nodemailer'
 // import nodemailerSendgrid from 'nodemailer-sendgrid'
 import path from 'path'
 import payload from 'payload'
@@ -34,15 +34,15 @@ app.get('/api/disk-space', async (req, res) => {
 // //   }),
 // // }
 
-const transport = nodemailer.createTransport({
-  host: process.env.PAYLOAD_NODEMAILER_HOST,
-  port: parseInt(process.env.PAYLOAD_NODEMAILER_PORT),
-  secure: true,
-  auth: {
-    user: process.env.PAYLOAD_NODEMAILER_USER,
-    pass: process.env.PAYLOAD_NODEMAILER_PASSWORD,
-  },
-})
+// const transport = nodemailer.createTransport({
+//   host: process.env.PAYLOAD_NODEMAILER_HOST,
+//   port: parseInt(process.env.PAYLOAD_NODEMAILER_PORT),
+//   secure: true,
+//   auth: {
+//     user: process.env.PAYLOAD_NODEMAILER_USER,
+//     pass: process.env.PAYLOAD_NODEMAILER_PASSWORD,
+//   },
+// })
 
 const start = async (): Promise<void> => {
   app.use('/assets', express.static(path.resolve(__dirname, '../assets')))
@@ -51,12 +51,12 @@ const start = async (): Promise<void> => {
     secret: process.env.PAYLOAD_SECRET,
     mongoURL: process.env.MONGODB_URI,
     express: app,
-    email: {
-      fromName: process.env.PAYLOAD_WEBSITE_NAME || 'TechInverted CMS',
-      fromAddress: process.env.PAYLOAD_NODEMAILER_USER || 'jason@techinverted.com',
-      // ...sendgridConfig,
-      transport,
-    },
+    // email: {
+    //   fromName: process.env.PAYLOAD_WEBSITE_NAME || 'TechInverted CMS',
+    //   fromAddress: process.env.PAYLOAD_NODEMAILER_USER || 'jason@techinverted.com',
+    //   // ...sendgridConfig,
+    //   transport,
+    // },
     onInit: () => {
       payload.logger.info(`Admin URL: ${payload.getAdminURL()}`)
     },

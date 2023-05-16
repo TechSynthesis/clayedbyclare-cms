@@ -2442,6 +2442,75 @@ export interface Page {
         blockName?: string;
         blockType: 'lexical';
       }
+    | {
+        productCardGridFields: {
+          richText: {
+            [k: string]: unknown;
+          }[];
+          links: {
+            link: {
+              type?: 'reference' | 'custom';
+              newTab?: boolean;
+              reference:
+                | {
+                    value: string | Product;
+                    relationTo: 'products';
+                  }
+                | {
+                    value: string | Page;
+                    relationTo: 'pages';
+                  }
+                | {
+                    value: string | Post;
+                    relationTo: 'posts';
+                  }
+                | {
+                    value: string | CaseStudy;
+                    relationTo: 'case-studies';
+                  };
+              url: string;
+              label: string;
+            };
+            id?: string;
+          }[];
+          cards: {
+            title: string;
+            price: string;
+            soldOut?: boolean;
+            productImageSlides: {
+              image: string | Media;
+              id?: string;
+            }[];
+            enableLink?: boolean;
+            link?: {
+              type?: 'reference' | 'custom';
+              newTab?: boolean;
+              reference:
+                | {
+                    value: string | Product;
+                    relationTo: 'products';
+                  }
+                | {
+                    value: string | Page;
+                    relationTo: 'pages';
+                  }
+                | {
+                    value: string | Post;
+                    relationTo: 'posts';
+                  }
+                | {
+                    value: string | CaseStudy;
+                    relationTo: 'case-studies';
+                  };
+              url: string;
+            };
+            id?: string;
+          }[];
+        };
+        id?: string;
+        blockName?: string;
+        blockType: 'productCardGrid';
+      }
   )[];
   slug?: string;
   meta?: {
